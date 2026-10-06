@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CyberVaras 2026</title>
+<meta name="description" content="Sexto Campeonato de Ciberseguridad CyberVaras · Duoc UC Sede Antonio Varas y CITT Antonio Varas. CTF online de 24 horas, 23 y 24 de octubre de 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<!--@CSS@--><link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<!-- Franja institucional -->
+<header class="inst">
+  <div class="wrap">
+    <img src="assets/img/logo_duocuc.png" alt="Duoc UC · Escuela de Informática y Telecomunicaciones">
+    <span class="inst-tag">Mes de la Ciberseguridad · Sede Antonio Varas</span>
+    <img src="assets/img/logo_citt.png" alt="CITT Duoc UC · Centro de Innovación y Transferencia Tecnológica">
+  </div>
+</header>
+
+<nav class="nav" aria-label="Secciones">
+  <div class="wrap">
+    <a class="brand" href="#inicio">CYBER<span>VARAS</span>_26</a>
+    <div class="nav-links">
+      <a href="#inicio">inicio</a>
+      <a href="#inscripcion">inscripción</a>
+      <a href="#scoreboard">scoreboard</a>
+      <a href="#recursos">recursos</a>
+      <a href="#bases">bases</a>
+      <a href="#contacto">contacto</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+<!-- ============ INICIO ============ -->
+<section id="v-inicio" class="view" data-view="inicio" style="padding-top:0">
+  <div class="hero">
+    <canvas id="net" aria-hidden="true"></canvas>
+    <div class="wrap">
+      <div>
+        <div class="hero-kicker">
+          <span class="status-pill open" id="hero-status">INSCRIPCIONES ABIERTAS</span>
+          <span>LVL 6 // Sexto Campeonato</span>
+        </div>
+        <h1 class="wordmark">CYBERVARAS<span class="yr">CTF · 2026</span></h1>
+        <p class="hero-sub">Sexto Campeonato de Ciberseguridad de Duoc UC Sede Antonio Varas y el CITT Antonio Varas.</p>
+        <p class="hero-meta">Online · 24 horas · vie 23 oct 18:00 → sáb 24 oct 18:00</p>
+        <div class="hero-cta">
+          <a class="btn" href="#inscripcion">./inscribir_equipo</a>
+          <a class="btn ghost" href="#recursos">Soy nuevo en CTF</a>
+        </div>
+      </div>
+      <div>
+        <div class="term" role="img" aria-label="Terminal con la secuencia de arranque del campeonato">
+          <div class="term-bar"><i></i><i></i><i></i><span>root@cybervaras:~/2026</span></div>
+          <div class="term-body" id="boot"></div>
+        </div>
+        <div class="count">
+          <div class="count-label" id="count-label">// T-MINUS · inicio del campeonato</div>
+          <div class="count-grid" id="countdown">
+            <div class="count-cell"><b data-u="d">--</b><small>días</small></div>
+            <div class="count-cell"><b data-u="h">--</b><small>horas</small></div>
+            <div class="count-cell"><b data-u="m">--</b><small>min</small></div>
+            <div class="count-cell"><b data-u="s">--</b><small>seg</small></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="section" style="margin-top:48px">
+      <p class="eyebrow">// MISSION_BRIEF</p>
+      <dl class="specs">
+        <div class="spec"><dt>Fecha</dt><dd>23–24 oct<small>Viernes 18:00 a sábado 18:00 (fecha por confirmar)</small></dd></div>
+        <div class="spec"><dt>Formato</dt><dd>Jeopardy · 24 h<small>Retos por categoría, puntaje dinámico</small></dd></div>
+        <div class="spec"><dt>Equipos</dt><dd>1 a 3 integrantes<small>Estudiantes con cuenta @duocuc.cl</small></dd></div>
+        <div class="spec"><dt>Modalidad</dt><dd>Online<small>Juegas desde donde quieras</small></dd></div>
+      </dl>
+    </div>
+
+    <div class="section">
+      <p class="eyebrow">// CATEGORIES</p>
+      <h2>Siete categorías, retos para cada nivel</h2>
+      <p class="lede">Alrededor de 25 retos. Cada categoría parte con retos de entrada, así que puedes sumar puntos aunque sea tu primer CTF.</p>
+      <div class="cats">
+        <article class="cat"><div class="cat-head"><h3>Warmup</h3><span class="cat-tag">misc</span></div><p>Codificaciones, comandos Linux y una flag escondida en esta misma página.</p><div class="diff"><span class="e">fácil</span></div></article>
+        <article class="cat"><div class="cat-head"><h3>Web</h3><span class="cat-tag">web</span></div><p>Inyección SQL, IDOR, cookies, inclusión de archivos y tokens JWT.</p><div class="diff"><span class="e">fácil</span><span class="m">medio</span><span class="h">difícil</span></div></article>
+        <article class="cat"><div class="cat-head"><h3>Criptografía</h3><span class="cat-tag">crypto</span></div><p>Cifrados clásicos, XOR, hashes y RSA con parámetros débiles.</p><div class="diff"><span class="e">fácil</span><span class="m">medio</span></div></article>
+        <article class="cat"><div class="cat-head"><h3>Forense</h3><span class="cat-tag">forensics</span></div><p>Metadatos, esteganografía, imágenes de disco y análisis de logs.</p><div class="diff"><span class="e">fácil</span><span class="m">medio</span></div></article>
+        <article class="cat"><div class="cat-head"><h3>Redes</h3><span class="cat-tag">network</span></div><p>Capturas pcap con Wireshark y tshark, protocolos en texto claro.</p><div class="diff"><span class="e">fácil</span><span class="m">medio</span></div></article>
+        <article class="cat"><div class="cat-head"><h3>OSINT</h3><span class="cat-tag">osint</span></div><p>Geolocalización y búsqueda en fuentes abiertas sobre perfiles ficticios.</p><div class="diff"><span class="e">fácil</span><span class="m">medio</span></div></article>
+        <article class="cat"><div class="cat-head"><h3>Reversing</h3><span class="cat-tag">rev</span></div><p>Binarios con strings, crackmes básicos y scripts ofuscados.</p><div class="diff"><span class="m">medio</span><span class="h">difícil</span></div></article>
+      </div>
+    </div>
+
+
+    <div class="section">
+      <p class="eyebrow">// SAVE_FILES</p>
+      <h2>Seis ediciones desde 2022</h2>
+      <p class="lede">CyberVaras nació en la Sede Antonio Varas y ya suma cinco campeonatos. Esta es la sexta partida.</p>
+      <div class="levels">
+        <div class="lvl"><b>LVL 1</b>2022 · ed. 1<br><em>COMPLETED</em></div>
+        <div class="lvl"><b>LVL 2</b>2022 · ed. 2<br><em>COMPLETED</em></div>
+        <div class="lvl"><b>LVL 3</b>2023<br><em>COMPLETED</em></div>
+        <div class="lvl"><b>LVL 4</b>2024<br><em>COMPLETED</em></div>
+        <div class="lvl"><b>LVL 5</b><a href="https://2025.cybervaras.xyz" target="_blank" rel="noopener">2025</a><br><em>COMPLETED</em></div>
+        <div class="lvl now"><b>LVL 6</b>2026<br><em>LOADING_</em></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <p class="eyebrow">// FAQ</p>
+      <h2>Preguntas frecuentes</h2>
+      <div class="faq">
+        <details><summary>¿Puedo participar si nunca he jugado un CTF?</summary><p>Sí. Cada categoría tiene retos de entrada y la sección de recursos tiene una ruta para empezar. Si vienes de los talleres del track, ya tienes la base.</p></details>
+        <details><summary>¿Puedo participar solo?</summary><p>Sí. Los equipos son de 1 a 3 integrantes y cada equipo se arma por su cuenta antes de inscribirse.</p></details>
+        <details><summary>¿Qué necesito para jugar?</summary><p>Un computador con conexión a internet y navegador. Recomendamos Kali Linux (o cualquier Linux) con Python, Wireshark y CyberChef a mano.</p></details>
+        <details><summary>¿Tengo que jugar las 24 horas?</summary><p>No. La plataforma queda abierta 24 horas y cada equipo juega cuando quiera. Gana el mayor puntaje al cierre; en empate, quien llegó primero a ese puntaje.</p></details>
+        <details><summary>¿Cómo entro a la plataforma?</summary><p>La organización crea las cuentas y los equipos en la plataforma con los datos de la inscripción. Antes del inicio cada integrante recibe su acceso en el correo @duocuc.cl que inscribió. Revisa también la carpeta de spam.</p></details>
+        <details><summary>¿Hay premios?</summary><p>Sí, para los tres primeros lugares. Se entregan en una ceremonia posterior al campeonato y se anunciarán junto con la fecha de premiación.</p></details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INSCRIPCIÓN ============ -->
+<section id="v-inscripcion" class="view" data-view="inscripcion" hidden>
+  <div class="wrap">
+    <p class="eyebrow">// REGISTER_TEAM</p>
+    <h2>Inscripción de equipos</h2>
+    <p class="lede">Abierta hasta el lunes 19 de octubre a las 23:59. Solo se aceptan correos @duocuc.cl: con ellos creamos la cuenta de cada integrante en la plataforma.</p>
+
+    <div class="form-layout">
+      <form class="form" id="reg" novalidate>
+        <p class="preview-flag" id="form-preview" hidden>Vista previa: el formulario aún no está conectado al Google Form, así que los datos no se envían.</p>
+
+        <fieldset>
+          <legend>Equipo</legend>
+          <div class="field">
+            <label for="f-team">Nombre del equipo <span class="req">*</span></label>
+            <input type="text" id="f-team" name="team" maxlength="32" placeholder="ej. Kernel_Panic" autocomplete="off">
+            <span class="hint">Hasta 32 caracteres. Sin groserías ni nombres de personas.</span>
+            <span class="err" data-for="f-team"></span>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Integrante 1 <small>(contacto del equipo)</small></legend>
+          <div class="row">
+            <div class="field"><label for="f-c-name">Nombre <span class="req">*</span></label><input type="text" id="f-c-name" name="c_name" autocomplete="name"><span class="err" data-for="f-c-name"></span></div>
+            <div class="field"><label for="f-c-mail">Correo @duocuc.cl <span class="req">*</span></label><input type="email" id="f-c-mail" name="c_mail" placeholder="nombre.apellido@duocuc.cl" autocomplete="email"><span class="err" data-for="f-c-mail"></span></div>
+          </div>
+          <div class="row">
+            <div class="field"><label for="f-c-career">Carrera <span class="req">*</span></label><input type="text" id="f-c-career" name="c_career" placeholder="ej. Ingeniería en Informática"><span class="err" data-for="f-c-career"></span></div>
+            <div class="field"><label for="f-c-campus">Sede <span class="req">*</span></label>
+              <select id="f-c-campus" name="c_campus">
+                <option value="">Selecciona tu sede</option>
+                <option>Antonio Varas</option><option>Alameda</option><option>Maipú</option><option>Melipilla</option>
+                <option>Padre Alonso de Ovalle</option><option>Plaza Norte</option><option>Plaza Oeste</option><option>Plaza Vespucio</option>
+                <option>Puente Alto</option><option>San Bernardo</option><option>San Carlos de Apoquindo</option><option>San Joaquín</option>
+                <option>Valparaíso</option><option>Viña del Mar</option><option>Concepción</option><option>Arauco</option>
+                <option>Nacimiento</option><option>Puerto Montt</option><option>Villarrica</option><option>Otra</option>
+              </select><span class="err" data-for="f-c-campus"></span></div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Integrantes 2 y 3 <small>(opcional)</small></legend>
+          <div class="row">
+            <div class="field"><label for="f-m2-name">Nombre integrante 2</label><input type="text" id="f-m2-name" name="m2_name"></div>
+            <div class="field"><label for="f-m2-mail">Correo @duocuc.cl</label><input type="email" id="f-m2-mail" name="m2_mail"><span class="err" data-for="f-m2-mail"></span></div>
+          </div>
+          <div class="row">
+            <div class="field"><label for="f-m3-name">Nombre integrante 3</label><input type="text" id="f-m3-name" name="m3_name"></div>
+            <div class="field"><label for="f-m3-mail">Correo @duocuc.cl</label><input type="email" id="f-m3-mail" name="m3_mail"><span class="err" data-for="f-m3-mail"></span></div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Perfil</legend>
+          <div class="field">
+            <span id="lbl-level" style="font-size:14px;font-weight:500">Experiencia del equipo <span class="req" style="color:var(--accent)">*</span></span>
+            <div class="choices" role="radiogroup" aria-labelledby="lbl-level">
+              <label class="choice"><input type="radio" id="f-lvl-1" name="level" value="Primera vez">Primera vez</label>
+              <label class="choice"><input type="radio" id="f-lvl-2" name="level" value="Hice talleres del track">Hice talleres del track</label>
+              <label class="choice"><input type="radio" id="f-lvl-3" name="level" value="Ya jugué CTF">Ya jugué CTF</label>
+            </div>
+            <span class="err" data-for="level"></span>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Condiciones</legend>
+          <label class="check"><input type="checkbox" id="f-rules" name="rules"> <span>Acepto las <a href="#bases">bases del campeonato</a> y me comprometo a usar las técnicas solo sobre la infraestructura del CTF. <span class="req" style="color:var(--accent)">*</span></span></label>
+          <span class="err" data-for="f-rules"></span>
+          <label class="check"><input type="checkbox" id="f-photo" name="photo"> Autorizo el uso de fotografías del evento para difusión del track.</label>
+        </fieldset>
+
+        <div class="form-foot">
+          <button class="btn" type="submit" id="f-submit">./enviar_inscripcion</button>
+          <span class="hint" id="f-closed" hidden>Las inscripciones están cerradas.</span>
+        </div>
+        <div class="out" id="f-out" hidden aria-live="polite"></div>
+      </form>
+
+      <aside class="side">
+        <div class="note">
+          <h3>Qué pasa después</h3>
+          <ul>
+                        <li>La organización crea las cuentas y el equipo en la plataforma.</li>
+            <li>Antes del inicio, cada integrante recibe su acceso en su correo @duocuc.cl.</li>
+            <li>El viernes 23 a las 18:00 se abren los retos.</li>
+          </ul>
+        </div>
+        <div class="note">
+          <h3>Formato de las flags</h3>
+          <p>Todas las respuestas tienen esta forma:</p>
+          <pre>CITT{texto_en_minusculas}</pre>
+        </div>
+        <div class="note">
+          <h3>¿Dudas?</h3>
+          <p>Escríbenos desde el <a href="#contacto">formulario de contacto</a>.</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SCOREBOARD ============ -->
+<section id="v-scoreboard" class="view" data-view="scoreboard" hidden>
+  <div class="wrap">
+    <div class="sb-head">
+      <div>
+        <p class="eyebrow">// LIVE_SCOREBOARD</p>
+        <h2>Marcador</h2>
+        <div class="sb-meta" id="sb-meta">cargando…</div>
+      </div>
+      <div class="sb-tools">
+        <button class="btn ghost small" type="button" id="sb-theme">Modo proyector</button>
+        <button class="btn ghost small" type="button" id="sb-fs">Pantalla completa</button>
+      </div>
+    </div>
+
+    <div class="sb-banner" id="sb-banner"></div>
+
+    <div class="kpis">
+      <div class="kpi"><small>Equipos</small><b id="k-teams">–</b></div>
+      <div class="kpi"><small>Flags capturadas</small><b id="k-solves">–</b></div>
+      <div class="kpi"><small>Puntaje líder</small><b id="k-top">–</b></div>
+      <div class="kpi"><small>Tiempo restante</small><b id="k-left">–</b></div>
+    </div>
+
+    <div class="podium" id="podium"></div>
+
+    <div class="sb-grid">
+      <div class="panel">
+        <div class="panel-h"><span>Ranking</span><span id="sb-updated"></span></div>
+        <div class="table-scroll">
+          <table class="rank">
+            <thead><tr><th>#</th><th>Equipo</th><th style="text-align:right">Puntos</th><th>Avance</th></tr></thead>
+            <tbody id="rank-body"></tbody>
+          </table>
+        </div>
+      </div>
+      <div style="display:grid;gap:14px;min-width:0">
+        <div class="panel">
+          <div class="panel-h"><span>Evolución · top 5</span></div>
+          <div class="chart-wrap" id="chart"></div>
+          <div class="legend" id="legend"></div>
+        </div>
+        <div class="panel">
+          <div class="panel-h"><span>Últimas flags</span></div>
+          <ul class="feed" id="feed"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RECURSOS ============ -->
+<section id="v-recursos" class="view" data-view="recursos" hidden>
+  <div class="wrap">
+    <p class="eyebrow">// TRAINING_GROUND</p>
+    <h2>Recursos para empezar</h2>
+    <p class="lede">Si es tu primer CTF, sigue esta ruta en las semanas previas. Todo es gratuito y se practica en entornos preparados para aprender.</p>
+
+    <ol class="path">
+      <li><h3>Domina la terminal</h3><p>Juega los primeros niveles de Bandit en OverTheWire: navegar archivos, permisos, grep, ssh.</p></li>
+      <li><h3>Entiende qué es un CTF</h3><p>Lee CTF101 y prueba los retos más fáciles de picoGym, organizados por categoría.</p></li>
+      <li><h3>Arma tu caja de herramientas</h3><p>Ten listos CyberChef, Wireshark, Python y un navegador con herramientas de desarrollo.</p></li>
+      <li><h3>Practica por categoría</h3><p>Elige la categoría que más te guste y haz los ejercicios guiados de abajo.</p></li>
+    </ol>
+
+    <div class="section" style="margin-top:40px">
+      <p class="eyebrow">// TOOLKIT</p>
+      <h2>Por categoría</h2>
+      <div class="res-grid" style="margin-top:18px">
+        <div class="res"><h3>Primeros pasos <span>general</span></h3><ul>
+          <li><a href="https://ctf101.org/" target="_blank" rel="noopener">CTF101</a> · qué es cada categoría y cómo se aborda.</li>
+          <li><a href="https://play.picoctf.org/practice" target="_blank" rel="noopener">picoGym</a> · cientos de retos de picoCTF para principiantes.</li>
+          <li><a href="https://overthewire.org/wargames/bandit/" target="_blank" rel="noopener">OverTheWire · Bandit</a> · Linux desde cero, nivel a nivel.</li>
+          <li><a href="https://tryhackme.com/" target="_blank" rel="noopener">TryHackMe</a> · salas guiadas con máquina en el navegador.</li>
+        </ul></div>
+        <div class="res"><h3>Web <span>web</span></h3><ul>
+          <li><a href="https://portswigger.net/web-security" target="_blank" rel="noopener">PortSwigger Web Security Academy</a> · laboratorios de SQLi, IDOR, JWT y más.</li>
+          <li><a href="https://owasp.org/www-project-top-ten/" target="_blank" rel="noopener">OWASP Top 10</a> · las vulnerabilidades web más comunes.</li>
+          <li><a href="https://portswigger.net/burp/communitydownload" target="_blank" rel="noopener">Burp Suite Community</a> · proxy para interceptar peticiones.</li>
+          <li>Herramientas de desarrollo del navegador (F12): cookies, red, código fuente.</li>
+        </ul></div>
+        <div class="res"><h3>Criptografía <span>crypto</span></h3><ul>
+          <li><a href="https://gchq.github.io/CyberChef/" target="_blank" rel="noopener">CyberChef</a> · Base64, XOR, hex y cientos de operaciones.</li>
+          <li><a href="https://www.dcode.fr/" target="_blank" rel="noopener">dCode</a> · identificador y decodificador de cifrados clásicos.</li>
+          <li><a href="https://crackstation.net/" target="_blank" rel="noopener">CrackStation</a> · búsqueda de hashes conocidos.</li>
+        </ul></div>
+        <div class="res"><h3>Forense <span>forensics</span></h3><ul>
+          <li><a href="https://exiftool.org/" target="_blank" rel="noopener">ExifTool</a> · metadatos de imágenes y documentos.</li>
+          <li><a href="https://www.aperisolve.com/" target="_blank" rel="noopener">Aperi'Solve</a> · análisis de esteganografía en línea.</li>
+          <li>Comandos base: <code class="k">file</code>, <code class="k">strings</code>, <code class="k">binwalk</code>, <code class="k">xxd</code>.</li>
+        </ul></div>
+        <div class="res"><h3>Redes <span>network</span></h3><ul>
+          <li><a href="https://www.wireshark.org/docs/" target="_blank" rel="noopener">Documentación de Wireshark</a> · filtros y seguimiento de flujos.</li>
+          <li>Prueba en un pcap: <code class="k">http</code>, <code class="k">tcp.stream eq 0</code> y Follow → TCP Stream.</li>
+          <li><a href="https://nicsanchezr.github.io/track-ciberseguridad-2026/portal.html" target="_blank" rel="noopener">Portal de talleres del track</a> · guías de redes y Wireshark.</li>
+        </ul></div>
+        <div class="res"><h3>OSINT <span>osint</span></h3><ul>
+          <li><a href="https://osintframework.com/" target="_blank" rel="noopener">OSINT Framework</a> · mapa de herramientas por tipo de búsqueda.</li>
+          <li>Búsqueda inversa de imágenes y operadores de búsqueda (<code class="k">site:</code>, <code class="k">filetype:</code>).</li>
+          <li>Los retos usan perfiles ficticios creados para el CTF. No investigues a personas reales.</li>
+        </ul></div>
+        <div class="res"><h3>Reversing <span>rev</span></h3><ul>
+          <li><a href="https://ghidra-sre.org/" target="_blank" rel="noopener">Ghidra</a> · desensamblador y decompilador gratuito.</li>
+          <li>Empieza siempre con <code class="k">strings</code> y <code class="k">file</code> antes de abrir el binario.</li>
+          <li>Python para reescribir y probar la lógica de validación.</li>
+        </ul></div>
+        <div class="res"><h3>Ediciones anteriores <span>archivo</span></h3><ul>
+          <li><a href="https://github.com/nicsanchezr/CyberVaras-2025-Archive" target="_blank" rel="noopener">CyberVaras 2025 · retos</a> · código de 26 retos web, OSINT, forense y crypto.</li>
+          <li><a href="https://2025.cybervaras.xyz" target="_blank" rel="noopener">Quinto Campeonato</a> · sitio de la edición 2025.</li>
+          <li><a href="https://www.kali.org/get-kali/" target="_blank" rel="noopener">Kali Linux</a> · distribución recomendada para jugar.</li>
+        </ul></div>
+      </div>
+    </div>
+
+    <div class="section" style="margin-top:40px">
+      <div class="note" style="max-width:760px">
+        <h3>Juega limpio</h3>
+        <p>Practica solo en plataformas y laboratorios hechos para eso. Usar estas técnicas contra sistemas reales sin autorización es ilegal y va contra las bases del campeonato.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACTO ============ -->
+<section id="v-contacto" class="view" data-view="contacto" hidden>
+  <div class="wrap">
+    <p class="eyebrow">// CONTACT</p>
+    <h2>Contacto</h2>
+    <p class="lede">¿Dudas sobre la inscripción, la plataforma o las bases? Escríbenos y te respondemos al correo que indiques.</p>
+
+    <div class="form-layout">
+      <form class="form" id="contact" novalidate>
+        <p class="preview-flag" id="contact-preview" hidden>Vista previa: el formulario de contacto aún no está conectado, así que el mensaje no se envía.</p>
+        <fieldset>
+          <legend>Tus datos</legend>
+          <div class="row">
+            <div class="field"><label for="k-name">Nombre <span class="req">*</span></label><input type="text" id="k-name" name="k_name" autocomplete="name"><span class="err" data-for="k-name"></span></div>
+            <div class="field"><label for="k-mail">Correo <span class="req">*</span></label><input type="email" id="k-mail" name="k_mail" placeholder="nombre.apellido@duocuc.cl" autocomplete="email"><span class="err" data-for="k-mail"></span></div>
+          </div>
+          <div class="row">
+            <div class="field"><label for="k-team">Equipo <small style="color:var(--muted)">(si ya te inscribiste)</small></label><input type="text" id="k-team" name="k_team" maxlength="32"></div>
+            <div class="field"><label for="k-topic">Tema <span class="req">*</span></label>
+              <select id="k-topic" name="k_topic">
+                <option value="">Selecciona un tema</option>
+                <option>Inscripción</option><option>Acceso a la plataforma</option><option>Bases y reglas</option><option>Retos</option><option>Otro</option>
+              </select><span class="err" data-for="k-topic"></span></div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Mensaje</legend>
+          <div class="field">
+            <label for="k-msg">Tu consulta <span class="req">*</span></label>
+            <textarea id="k-msg" name="k_msg" rows="6" maxlength="1500" placeholder="Cuéntanos en qué te podemos ayudar."></textarea>
+            <span class="hint">No incluyas flags ni soluciones de retos.</span>
+            <span class="err" data-for="k-msg"></span>
+          </div>
+        </fieldset>
+        <div class="form-foot">
+          <button class="btn" type="submit" id="k-submit">./enviar_mensaje</button>
+        </div>
+        <div class="out" id="k-out" hidden aria-live="polite"></div>
+      </form>
+
+      <aside class="side">
+        <div class="note">
+          <h3>Antes de escribir</h3>
+          <ul>
+            <li>Revisa las <a href="#bases">bases</a> y las preguntas frecuentes de la <a href="#inicio">portada</a>.</li>
+            <li>Si es tu primer CTF, mira la sección de <a href="#recursos">recursos</a>.</li>
+          </ul>
+        </div>
+        <div class="note">
+          <h3>Durante el campeonato</h3>
+          <p>Usa este mismo formulario y elige el tema "Acceso a la plataforma" o "Retos". No damos pistas por esta vía.</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BASES ============ -->
+<section id="v-bases" class="view" data-view="bases" hidden>
+  <div class="wrap">
+    <p class="eyebrow">// RULES.md</p>
+    <h2>Bases del campeonato</h2>
+    <p class="lede">Sexto Campeonato de Ciberseguridad CyberVaras 2026. Al inscribirte aceptas estas bases.</p>
+    <div class="bases">
+      <section><h3>1. Organización</h3><p>Organizan Duoc UC Sede Antonio Varas y el Track de Ciberseguridad del CITT Antonio Varas, Escuela de Informática y Telecomunicaciones, en el marco del Mes de la Ciberseguridad.</p></section>
+      <section><h3>2. Participantes</h3><p>Estudiantes regulares de Duoc UC de cualquier sede y carrera, con cuenta @duocuc.cl vigente. Docentes y miembros del equipo organizador no compiten.</p></section>
+      <section><h3>3. Equipos</h3><p>De 1 a 3 integrantes. Cada persona puede pertenecer a un solo equipo y no se permiten cambios de integrantes después del cierre de inscripciones.</p></section>
+      <section><h3>4. Inscripción</h3><p>En esta página, solo con correos @duocuc.cl, entre el 9 y el 19 de octubre de 2026. La organización crea las cuentas y los equipos en la plataforma y envía el acceso a cada integrante en su correo @duocuc.cl antes del inicio.</p></section>
+      <section><h3>5. Formato</h3><p>Competencia jeopardy online de 24 horas, desde el viernes 23 de octubre de 2026 a las 18:00 hasta el sábado 24 a las 18:00. Los retos se publican al inicio en la plataforma.</p></section>
+      <section><h3>6. Puntaje</h3><p>Cada reto entrega puntaje dinámico según cuántos equipos lo resuelven. En caso de empate gana el equipo que alcanzó primero el puntaje final. Las flags tienen el formato <code class="k">CITT{...}</code>.</p></section>
+      <section><h3>7. Conducta y ética</h3><p>Las técnicas se aplican solo sobre la infraestructura del CTF, un entorno controlado y autorizado con fines formativos. Está prohibido:</p>
+        <ul>
+          <li>Atacar la plataforma, la red de la institución o a otros equipos.</li>
+          <li>Hacer denegación de servicio o fuerza bruta contra los servicios, salvo que el reto lo indique.</li>
+          <li>Compartir flags, soluciones o pistas con otros equipos durante la competencia.</li>
+          <li>Usar lo aprendido contra sistemas reales sin autorización.</li>
+        </ul></section>
+      <section><h3>8. Descalificación</h3><p>El incumplimiento de estas bases puede implicar anulación de puntaje o descalificación del equipo, a criterio de la organización.</p></section>
+      <section><h3>9. Premios</h3><p>Se premia a los tres primeros lugares en una ceremonia posterior al campeonato. Los premios se definen con el CITT y la Dirección de Carrera y se informan oportunamente.</p></section>
+      <section><h3>10. Uso de imagen y datos</h3><p>Los datos de inscripción se usan solo para gestionar el evento. Cada participante indica al inscribirse si autoriza el uso de fotografías para difusión.</p></section>
+      <section><h3>11. Consultas</h3><p>Mediante el formulario de contacto de esta página. Cualquier situación no prevista la resuelve el equipo organizador.</p></section>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <span>© 2026 CyberVaras · Duoc UC Sede Antonio Varas · CITT Antonio Varas</span>
+    <span>insert_coin_to_continue_<!-- CITT{v13w_s0urc3_1s_th3_f1rst_st3p} --></span>
+  </div>
+</footer>
+
+<!--@JS@--><script src="assets/js/config.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
