@@ -31,6 +31,7 @@
     document.title = v === "inicio" ? "CyberVaras 2026" : "CyberVaras 2026 · " + ({ inscripcion: "Inscripción", scoreboard: "Scoreboard", recursos: "Recursos", bases: "Bases", contacto: "Contacto" }[v]);
     window.scrollTo(0, 0);
     if (v === "scoreboard") SB.start(); else SB.stop();
+    if (v === "inscripcion") REG.onEnter();
     NET.toggle(v === "inicio");
   }
   window.addEventListener("hashchange", route);
@@ -62,9 +63,7 @@
       p === "done" ? "// GAME_OVER · gracias por jugar" : "// T-MINUS · inicio del campeonato";
     const t = splitMs(p === "done" ? 0 : target - now);
     $$("#countdown b").forEach(b => { const u = b.dataset.u; b.textContent = u === "d" ? t.d : pad(t[u]); });
-    const closed = now > T.regClose;
-    $("#f-submit").disabled = closed;
-    $("#f-closed").hidden = !closed;
+    REG.tick(now);
   }
 
   /* ---------------- terminal de arranque ---------------- */
@@ -147,11 +146,86 @@
     };
   })();
 
+  /* ---------------- estado de inscripciones (aviso + bloqueo) ---------------- */
+  const REG = (function () {
+    const DIAS_L = ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"];
+    const MESES_L = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+    const fmtDay = ms => { const d = new Date(ms); return `${DIAS_L[d.getDay()]} ${d.getDate()} de ${MESES_L[d.getMonth()]}`; };
+    // prueba interna: https://2026.cybervaras.xyz/?prueba#inscripcion habilita el formulario
+    const testing = new URLSearchParams(location.search).has("prueba");
+    const dlg = $("#reg-dialog");
+    let shownOnce = false, last = null;
+    function state(now = Date.now()) {
+      if (testing && C.formAction) return "open";
+      if (now > T.regClose) return "closed";
+      if (now < T.regOpen || !C.formAction) return "soon";
+      return "open";
+    }
+    function texts(st) {
+      if (st === "closed") return {
+        pill: "CERRADAS", eyebrow: "// REGISTRATION_CLOSED", title: "Las inscripciones están cerradas",
+        body: `El plazo terminó el ${fmtDay(T.regClose)}. Te esperamos en el marcador y en la próxima edición.`,
+        inline: `Las inscripciones cerraron el ${fmtDay(T.regClose)}.`
+      };
+      const future = Date.now() < T.regOpen;
+      return {
+        pill: "PRÓXIMAMENTE", eyebrow: "// ACCESS_DENIED", title: "Las inscripciones aún no abren",
+        body: future
+          ? `Se abren el ${fmtDay(T.regOpen)} y estarán disponibles hasta el ${fmtDay(T.regClose)}. Mientras tanto, arma tu equipo y revisa los recursos.`
+          : "Se abrirán en breve. Mientras tanto, arma tu equipo y revisa los recursos.",
+        inline: future ? `Las inscripciones se abren el ${fmtDay(T.regOpen)}.` : "Las inscripciones se abrirán en breve."
+      };
+    }
+    function apply(now = Date.now()) {
+      const st = state(now), f = $("#reg"), locked = st !== "open";
+      if (st === last) return st;
+      last = st;
+      f.classList.toggle("locked", locked);
+      $$("fieldset", f).forEach(fs => { fs.disabled = locked; });
+      $("#f-submit").disabled = locked;
+      const box = $("#reg-state");
+      box.hidden = !locked;
+      if (locked) {
+        const t = texts(st);
+        box.classList.toggle("closed", st === "closed");
+        $("#reg-state-pill").textContent = t.pill;
+        $("#reg-state-pill").className = "status-pill " + (st === "closed" ? "done" : "wait");
+        $("#reg-state-text").textContent = t.inline;
+      } else if (dlg.open) dlg.close();
+      return st;
+    }
+    function countdown(now) {
+      const box = $("#reg-dialog-count");
+      if (state(now) !== "soon" || now >= T.regOpen) { box.innerHTML = ""; return; }
+      const t = splitMs(T.regOpen - now);
+      box.innerHTML = [["d", "días"], ["h", "horas"], ["m", "min"], ["s", "seg"]]
+        .map(([u, l]) => `<div><b>${u === "d" ? t.d : pad(t[u])}</b><small>${l}</small></div>`).join("");
+    }
+    function show() {
+      const st = state();
+      if (st === "open") return;
+      const t = texts(st);
+      $("#reg-dialog-eyebrow").textContent = t.eyebrow;
+      $("#reg-dialog-title").textContent = t.title;
+      $("#reg-dialog-text").textContent = t.body;
+      countdown(Date.now());
+      if (!dlg.open) { try { dlg.showModal(); } catch (e) { dlg.setAttribute("open", ""); } }
+    }
+    $("#reg-dialog-ok").addEventListener("click", () => dlg.close());
+    $("#reg-dialog-res").addEventListener("click", () => dlg.close());
+    dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
+    $("#reg").addEventListener("click", () => { if (state() !== "open") show(); });
+    return {
+      state,
+      show,
+      tick(now) { apply(now); if (dlg.open) countdown(now); },
+      onEnter() { apply(); if (state() !== "open" && !shownOnce) { shownOnce = true; setTimeout(show, 250); } }
+    };
+  })();
+
   /* ---------------- formulario de inscripción ---------------- */
   function setupForm() {
     const f = $("#reg"), out = $("#f-out");
-    const preview = !C.formAction;
-    $("#form-preview").hidden = !preview;
     const domRe = new RegExp("^[A-Za-z0-9._%+-]+@" + C.emailDomain.replace(/\./g, "\\.") + "$", "i");
     const setErr = (key, msg, input) => {
       const e = $(`.err[data-for="${key}"]`); if (e) e.textContent = msg || "";
@@ -188,7 +262,7 @@
     }
     f.addEventListener("submit", async ev => {
       ev.preventDefault();
-      if (Date.now() > T.regClose) return;
+      if (REG.state() !== "open") { REG.show(); return; }
       if (!validate()) return;
       const data = new FormData(f), body = new URLSearchParams();
       const val = k => {
@@ -202,20 +276,14 @@
       out.hidden = false;
       out.innerHTML = `<span class="c">$ ./enviar_inscripcion --team "${esc(team)}"</span>\n<span class="c">[*] enviando…</span>`;
       try {
-        if (!preview) {
-          await fetch(C.formAction, { method: "POST", mode: "no-cors", body });
-        } else {
-          await new Promise(r => setTimeout(r, 600));
-        }
+        await fetch(C.formAction, { method: "POST", mode: "no-cors", body });
         out.innerHTML =
           `<span class="c">$ ./enviar_inscripcion --team "${esc(team)}"</span>\n` +
-          (preview
-            ? `<span class="p">[+] validación OK</span>\n<span class="c">[i] vista previa: no se envió ningún dato</span>`
-            : `<span class="p">[+] inscripción registrada</span>\n[i] equipo: ${esc(team)}\n[i] te avisaremos en ${esc(mail)}\n<span class="p">&gt; see_you_on_the_scoreboard_</span>`);
-        if (!preview) { f.reset(); $$("[aria-invalid]", f).forEach(i => i.setAttribute("aria-invalid", "false")); }
+          (`<span class="p">[+] inscripción registrada</span>\n[i] equipo: ${esc(team)}\n[i] te avisaremos en ${esc(mail)}\n<span class="p">&gt; see_you_on_the_scoreboard_</span>`);
+        f.reset(); $$("[aria-invalid]", f).forEach(i => i.setAttribute("aria-invalid", "false"));
       } catch (e) {
         out.innerHTML = `<span class="x">[x] no pudimos enviar la inscripción.</span>\nRevisa tu conexión e inténtalo otra vez. Si el problema sigue, escríbenos desde el formulario de contacto.`;
-      } finally { btn.disabled = Date.now() > T.regClose; }
+      } finally { btn.disabled = REG.state() !== "open"; }
     });
     $$("input, select", f).forEach(i => i.addEventListener("input", () => {
       if (i.getAttribute("aria-invalid") === "true") { i.setAttribute("aria-invalid", "false"); setErr(i.id, ""); }
@@ -226,8 +294,11 @@
   /* ---------------- formulario de contacto ---------------- */
   function setupContact() {
     const f = $("#contact"), out = $("#k-out");
-    const preview = !C.contactAction;
-    $("#contact-preview").hidden = !preview;
+    const ready = !!C.contactAction;
+    $("#contact-state").hidden = ready;
+    f.classList.toggle("locked", !ready);
+    $$("fieldset", f).forEach(fs => { fs.disabled = !ready; });
+    $("#k-submit").disabled = !ready;
     const mailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const setErr = (id, msg) => {
       const e = $(`.err[data-for="${id}"]`); if (e) e.textContent = msg || "";
@@ -247,6 +318,7 @@
     }
     f.addEventListener("submit", async ev => {
       ev.preventDefault();
+      if (!ready) return;
       if (!validate()) return;
       const body = new URLSearchParams();
       const vals = { name: $("#k-name").value.trim(), mail: $("#k-mail").value.trim(), team: $("#k-team").value.trim(), topic: $("#k-topic").value, msg: $("#k-msg").value.trim() };
@@ -254,12 +326,9 @@
       const btn = $("#k-submit"); btn.disabled = true; out.hidden = false;
       out.innerHTML = `<span class="c">$ ./enviar_mensaje --tema "${esc(vals.topic)}"</span>\n<span class="c">[*] enviando…</span>`;
       try {
-        if (!preview) await fetch(C.contactAction, { method: "POST", mode: "no-cors", body });
-        else await new Promise(r => setTimeout(r, 500));
-        out.innerHTML = `<span class="c">$ ./enviar_mensaje --tema "${esc(vals.topic)}"</span>\n` + (preview
-          ? `<span class="p">[+] validación OK</span>\n<span class="c">[i] vista previa: no se envió ningún dato</span>`
-          : `<span class="p">[+] mensaje enviado</span>\n[i] te responderemos en ${esc(vals.mail)}`);
-        if (!preview) f.reset();
+        await fetch(C.contactAction, { method: "POST", mode: "no-cors", body });
+        out.innerHTML = `<span class="c">$ ./enviar_mensaje --tema "${esc(vals.topic)}"</span>\n` + `<span class="p">[+] mensaje enviado</span>\n[i] te responderemos en ${esc(vals.mail)}`;
+        f.reset();
       } catch (e) {
         out.innerHTML = `<span class="x">[x] no pudimos enviar el mensaje.</span>\nRevisa tu conexión e inténtalo otra vez.`;
       } finally { btn.disabled = false; }

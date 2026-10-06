@@ -5,7 +5,7 @@
 window.CV_CONFIG = {
   /* Fechas (hora de Chile continental en octubre = UTC-03:00) */
   regOpen:  "2026-10-09T00:00:00-03:00",
-  regClose: "2026-10-19T23:59:59-03:00",
+  regClose: "2026-10-20T23:59:59-03:00",
   ctfStart: "2026-10-23T18:00:00-03:00",
   ctfEnd:   "2026-10-24T18:00:00-03:00",
 

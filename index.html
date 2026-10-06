@@ -134,11 +134,15 @@
   <div class="wrap">
     <p class="eyebrow">// REGISTER_TEAM</p>
     <h2>Inscripción de equipos</h2>
-    <p class="lede">Abierta hasta el lunes 19 de octubre a las 23:59. Solo se aceptan correos @duocuc.cl: con ellos creamos la cuenta de cada integrante en la plataforma.</p>
+    <p class="lede">Del viernes 9 al martes 20 de octubre, hasta las 23:59. Solo se aceptan correos @duocuc.cl: con ellos creamos la cuenta de cada integrante en la plataforma.</p>
+
+    <div class="reg-state" id="reg-state" hidden>
+      <span class="status-pill wait" id="reg-state-pill">PRÓXIMAMENTE</span>
+      <p id="reg-state-text"></p>
+    </div>
 
     <div class="form-layout">
       <form class="form" id="reg" novalidate>
-        <p class="preview-flag" id="form-preview" hidden>Vista previa: el formulario aún no está conectado al Google Form, así que los datos no se envían.</p>
 
         <fieldset>
           <legend>Equipo</legend>
@@ -204,7 +208,6 @@
 
         <div class="form-foot">
           <button class="btn" type="submit" id="f-submit">./enviar_inscripcion</button>
-          <span class="hint" id="f-closed" hidden>Las inscripciones están cerradas.</span>
         </div>
         <div class="out" id="f-out" hidden aria-live="polite"></div>
       </form>
@@ -362,9 +365,13 @@
     <h2>Contacto</h2>
     <p class="lede">¿Dudas sobre la inscripción, la plataforma o las bases? Escríbenos y te respondemos al correo que indiques.</p>
 
+    <div class="reg-state" id="contact-state" hidden>
+      <span class="status-pill wait">PRÓXIMAMENTE</span>
+      <p>El formulario de contacto se habilita junto con la apertura de las inscripciones.</p>
+    </div>
+
     <div class="form-layout">
       <form class="form" id="contact" novalidate>
-        <p class="preview-flag" id="contact-preview" hidden>Vista previa: el formulario de contacto aún no está conectado, así que el mensaje no se envía.</p>
         <fieldset>
           <legend>Tus datos</legend>
           <div class="row">
@@ -422,7 +429,7 @@
       <section><h3>1. Organización</h3><p>Organizan Duoc UC Sede Antonio Varas y el Track de Ciberseguridad del CITT Antonio Varas, Escuela de Informática y Telecomunicaciones, en el marco del Mes de la Ciberseguridad.</p></section>
       <section><h3>2. Participantes</h3><p>Estudiantes regulares de Duoc UC de cualquier sede y carrera, con cuenta @duocuc.cl vigente. Docentes y miembros del equipo organizador no compiten.</p></section>
       <section><h3>3. Equipos</h3><p>De 1 a 3 integrantes. Cada persona puede pertenecer a un solo equipo y no se permiten cambios de integrantes después del cierre de inscripciones.</p></section>
-      <section><h3>4. Inscripción</h3><p>En esta página, solo con correos @duocuc.cl, entre el 9 y el 19 de octubre de 2026. La organización crea las cuentas y los equipos en la plataforma y envía el acceso a cada integrante en su correo @duocuc.cl antes del inicio.</p></section>
+      <section><h3>4. Inscripción</h3><p>En esta página, solo con correos @duocuc.cl, entre el 9 y el 20 de octubre de 2026. La organización crea las cuentas y los equipos en la plataforma y envía el acceso a cada integrante en su correo @duocuc.cl antes del inicio.</p></section>
       <section><h3>5. Formato</h3><p>Competencia jeopardy online de 24 horas, desde el viernes 23 de octubre de 2026 a las 18:00 hasta el sábado 24 a las 18:00. Los retos se publican al inicio en la plataforma.</p></section>
       <section><h3>6. Puntaje</h3><p>Cada reto entrega puntaje dinámico según cuántos equipos lo resuelven. En caso de empate gana el equipo que alcanzó primero el puntaje final. Las flags tienen el formato <code class="k">CITT{...}</code>.</p></section>
       <section><h3>7. Conducta y ética</h3><p>Las técnicas se aplican solo sobre la infraestructura del CTF, un entorno controlado y autorizado con fines formativos. Está prohibido:</p>
@@ -448,6 +455,21 @@
     <span>insert_coin_to_continue_<!-- CITT{v13w_s0urc3_1s_th3_f1rst_st3p} --></span>
   </div>
 </footer>
+
+<!-- Aviso de inscripciones -->
+<dialog class="modal" id="reg-dialog" aria-labelledby="reg-dialog-title">
+  <div class="modal-bar"><i></i><i></i><i></i><span>root@cybervaras:~/inscripcion</span></div>
+  <div class="modal-body">
+    <p class="eyebrow" id="reg-dialog-eyebrow">// ACCESS_DENIED</p>
+    <h3 id="reg-dialog-title">Las inscripciones aún no abren</h3>
+    <p id="reg-dialog-text"></p>
+    <div class="modal-count" id="reg-dialog-count" aria-live="off"></div>
+    <div class="modal-actions">
+      <button class="btn" type="button" id="reg-dialog-ok">Entendido</button>
+      <a class="btn ghost" href="#recursos" id="reg-dialog-res">Ver recursos</a>
+    </div>
+  </div>
+</dialog>
 
 <!--@JS@--><script src="assets/js/config.js"></script>
 <script src="assets/js/app.js"></script>
