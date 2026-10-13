@@ -21,7 +21,7 @@ window.CV_CONFIG = {
   /* Backend de formularios (Google Apps Script → Google Sheets).
      endpoint: URL de la aplicación web, termina en /exec. Vacío = formularios bloqueados.
      token: debe ser el mismo valor que TOKEN en Codigo.gs. */
-  endpoint: "",
+  endpoint: "https://script.google.com/macros/s/AKfycby2BrjqchD61seiUHPT-PvPvwpz9uZyXQCt5rRbg6ERkBf-RtikCuhUYHYheQ9Y1mj8/exec",
   token: "cybervaras2026",
 
   /* Dominio permitido en los correos */
