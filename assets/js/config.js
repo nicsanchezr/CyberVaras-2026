@@ -30,11 +30,15 @@ window.CV_CONFIG = {
     c_campus:  "entry.1000000005",
     m2_name:   "entry.1000000006",
     m2_mail:   "entry.1000000007",
-    m3_name:   "entry.1000000008",
-    m3_mail:   "entry.1000000009",
-    level:     "entry.1000000010",
-    rules:     "entry.1000000011",
-    photo:     "entry.1000000012"
+    m2_career: "entry.1000000008",
+    m2_campus: "entry.1000000009",
+    m3_name:   "entry.1000000010",
+    m3_mail:   "entry.1000000011",
+    m3_career: "entry.1000000012",
+    m3_campus: "entry.1000000013",
+    level:     "entry.1000000014",
+    rules:     "entry.1000000015",
+    photo:     "entry.1000000016"
   },
 
   /* Google Form de contacto (otro Form, independiente del de inscripción).

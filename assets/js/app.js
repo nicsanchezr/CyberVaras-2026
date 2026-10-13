@@ -248,9 +248,15 @@
         if (v) mails.push(v.toLowerCase());
         setErr(id, msg, i); if (msg) { ok = false; first.push(i); }
       });
-      [["f-m2-name", "f-m2-mail"], ["f-m3-name", "f-m3-mail"]].forEach(([n, m]) => {
-        const ni = $("#" + n), mi = $("#" + m);
-        if (ni.value.trim() && !mi.value.trim()) { setErr(m, "Agrega el correo de este integrante.", mi); ok = false; first.push(mi); }
+      [2, 3].forEach(n => {
+        const ids = ["name", "mail", "career", "campus"].map(k => `f-m${n}-${k}`);
+        const els = ids.map(id => $("#" + id));
+        if (!els.some(e => e.value.trim())) return;
+        const msgs = { name: "Escribe el nombre de este integrante.", mail: "Agrega el correo de este integrante.", career: "Indica la carrera.", campus: "Selecciona una sede." };
+        ["name", "mail", "career", "campus"].forEach((k, i) => {
+          const e = els[i];
+          if (!e.value.trim() && !(k === "mail" && $(`.err[data-for="${ids[i]}"]`).textContent)) { setErr(ids[i], msgs[k], e); ok = false; first.push(e); }
+        });
       });
       ["level"].forEach(name => {
         const bad = !f.querySelector(`input[name="${name}"]:checked`);

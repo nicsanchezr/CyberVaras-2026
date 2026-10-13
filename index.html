@@ -119,6 +119,7 @@
       <h2>Preguntas frecuentes</h2>
       <div class="faq">
         <details><summary>¿Puedo participar si nunca he jugado un CTF?</summary><p>Sí. Cada categoría tiene retos de entrada y la sección de recursos tiene una ruta para empezar. Si vienes de los talleres del track, ya tienes la base.</p></details>
+        <details><summary>¿Mi equipo puede tener integrantes de otra sede o carrera?</summary><p>Sí. Los equipos pueden combinar estudiantes de distintas sedes y carreras de Duoc UC, siempre que todos tengan cuenta @duocuc.cl.</p></details>
         <details><summary>¿Puedo participar solo?</summary><p>Sí. Los equipos son de 1 a 3 integrantes y cada equipo se arma por su cuenta antes de inscribirse.</p></details>
         <details><summary>¿Qué necesito para jugar?</summary><p>Un computador con conexión a internet y navegador. Recomendamos Kali Linux (o cualquier Linux) con Python, Wireshark y CyberChef a mano.</p></details>
         <details><summary>¿Tengo que jugar las 24 horas?</summary><p>No. La plataforma queda abierta 24 horas y cada equipo juega cuando quiera. Gana el mayor puntaje al cierre; en empate, quien llegó primero a ese puntaje.</p></details>
@@ -175,14 +176,40 @@
         </fieldset>
 
         <fieldset>
-          <legend>Integrantes 2 y 3 <small>(opcional)</small></legend>
+          <legend>Integrantes 2 y 3 <small>(opcional · pueden ser de otra sede o carrera)</small></legend>
+          <p class="hint" style="margin:0;font-weight:600;color:var(--text)">Integrante 2</p>
           <div class="row">
-            <div class="field"><label for="f-m2-name">Nombre integrante 2</label><input type="text" id="f-m2-name" name="m2_name"></div>
+            <div class="field"><label for="f-m2-name">Nombre</label><input type="text" id="f-m2-name" name="m2_name"><span class="err" data-for="f-m2-name"></span></div>
             <div class="field"><label for="f-m2-mail">Correo @duocuc.cl</label><input type="email" id="f-m2-mail" name="m2_mail"><span class="err" data-for="f-m2-mail"></span></div>
           </div>
           <div class="row">
-            <div class="field"><label for="f-m3-name">Nombre integrante 3</label><input type="text" id="f-m3-name" name="m3_name"></div>
+            <div class="field"><label for="f-m2-career">Carrera</label><input type="text" id="f-m2-career" name="m2_career"><span class="err" data-for="f-m2-career"></span></div>
+            <div class="field"><label for="f-m2-campus">Sede</label>
+              <select id="f-m2-campus" name="m2_campus">
+                <option value="">Selecciona su sede</option>
+                <option>Antonio Varas</option><option>Alameda</option><option>Maipú</option><option>Melipilla</option>
+                <option>Padre Alonso de Ovalle</option><option>Plaza Norte</option><option>Plaza Oeste</option><option>Plaza Vespucio</option>
+                <option>Puente Alto</option><option>San Bernardo</option><option>San Carlos de Apoquindo</option><option>San Joaquín</option>
+                <option>Valparaíso</option><option>Viña del Mar</option><option>Concepción</option><option>Arauco</option>
+                <option>Nacimiento</option><option>Puerto Montt</option><option>Villarrica</option><option>Otra</option>
+              </select><span class="err" data-for="f-m2-campus"></span></div>
+          </div>
+          <p class="hint" style="margin:0;font-weight:600;color:var(--text)">Integrante 3</p>
+          <div class="row">
+            <div class="field"><label for="f-m3-name">Nombre</label><input type="text" id="f-m3-name" name="m3_name"><span class="err" data-for="f-m3-name"></span></div>
             <div class="field"><label for="f-m3-mail">Correo @duocuc.cl</label><input type="email" id="f-m3-mail" name="m3_mail"><span class="err" data-for="f-m3-mail"></span></div>
+          </div>
+          <div class="row">
+            <div class="field"><label for="f-m3-career">Carrera</label><input type="text" id="f-m3-career" name="m3_career"><span class="err" data-for="f-m3-career"></span></div>
+            <div class="field"><label for="f-m3-campus">Sede</label>
+              <select id="f-m3-campus" name="m3_campus">
+                <option value="">Selecciona su sede</option>
+                <option>Antonio Varas</option><option>Alameda</option><option>Maipú</option><option>Melipilla</option>
+                <option>Padre Alonso de Ovalle</option><option>Plaza Norte</option><option>Plaza Oeste</option><option>Plaza Vespucio</option>
+                <option>Puente Alto</option><option>San Bernardo</option><option>San Carlos de Apoquindo</option><option>San Joaquín</option>
+                <option>Valparaíso</option><option>Viña del Mar</option><option>Concepción</option><option>Arauco</option>
+                <option>Nacimiento</option><option>Puerto Montt</option><option>Villarrica</option><option>Otra</option>
+              </select><span class="err" data-for="f-m3-campus"></span></div>
           </div>
         </fieldset>
 
@@ -428,7 +455,7 @@
     <div class="bases">
       <section><h3>1. Organización</h3><p>Organizan Duoc UC Sede Antonio Varas y el Track de Ciberseguridad del CITT Antonio Varas, Escuela de Informática y Telecomunicaciones, en el marco del Mes de la Ciberseguridad.</p></section>
       <section><h3>2. Participantes</h3><p>Estudiantes regulares de Duoc UC de cualquier sede y carrera, con cuenta @duocuc.cl vigente. Docentes y miembros del equipo organizador no compiten.</p></section>
-      <section><h3>3. Equipos</h3><p>De 1 a 3 integrantes. Cada persona puede pertenecer a un solo equipo y no se permiten cambios de integrantes después del cierre de inscripciones.</p></section>
+      <section><h3>3. Equipos</h3><p>De 1 a 3 integrantes, que pueden ser de distintas sedes y carreras de Duoc UC. Cada persona puede pertenecer a un solo equipo y no se permiten cambios de integrantes después del cierre de inscripciones.</p></section>
       <section><h3>4. Inscripción</h3><p>En esta página, solo con correos @duocuc.cl, entre el 14 y el 22 de octubre de 2026, hasta las 23:59. La organización crea las cuentas y los equipos en la plataforma y envía el acceso a cada integrante en su correo @duocuc.cl la mañana del viernes 23 de octubre, a más tardar a las 12:00.</p></section>
       <section><h3>5. Formato</h3><p>Competencia jeopardy online de 24 horas, desde el viernes 23 de octubre de 2026 a las 18:00 hasta el sábado 24 a las 18:00. Los retos se publican al inicio en la plataforma.</p></section>
       <section><h3>6. Puntaje</h3><p>Cada reto entrega puntaje dinámico según cuántos equipos lo resuelven. En caso de empate gana el equipo que alcanzó primero el puntaje final. Las flags tienen el formato <code class="k">CITT{...}</code>.</p></section>
