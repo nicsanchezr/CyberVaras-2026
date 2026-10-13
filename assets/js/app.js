@@ -146,6 +146,15 @@
     };
   })();
 
+  /* ---------------- envío al backend (Google Apps Script) ---------------- */
+  async function postJSON(obj) {
+    // text/plain evita la consulta previa CORS; Apps Script responde JSON tras una redirección
+    const r = await fetch(C.endpoint, { method: "POST", body: JSON.stringify(obj), redirect: "follow" });
+    let j = {};
+    try { j = await r.json(); } catch (e) { throw new Error("respuesta inválida"); }
+    return j;
+  }
+
   /* ---------------- estado de inscripciones (aviso + bloqueo) ---------------- */
   const REG = (function () {
     const DIAS_L = ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"];
@@ -156,9 +165,9 @@
     const dlg = $("#reg-dialog");
     let shownOnce = false, last = null;
     function state(now = Date.now()) {
-      if (testing && C.formAction) return "open";
+      if (testing && C.endpoint) return "open";
       if (now > T.regClose) return "closed";
-      if (now < T.regOpen || !C.formAction) return "soon";
+      if (now < T.regOpen || !C.endpoint) return "soon";
       return "open";
     }
     function texts(st) {
@@ -216,6 +225,7 @@
     dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
     $("#reg").addEventListener("click", () => { if (state() !== "open") show(); });
     return {
+      testing,
       state,
       show,
       tick(now) { apply(now); if (dlg.open) countdown(now); },
@@ -270,19 +280,28 @@
       ev.preventDefault();
       if (REG.state() !== "open") { REG.show(); return; }
       if (!validate()) return;
-      const data = new FormData(f), body = new URLSearchParams();
-      const val = k => {
-        if (k === "rules") return "Acepto";
-        if (k === "photo") return $("#f-photo").checked ? "Sí" : "No";
-        return (data.get(k) || "").toString().trim();
+      const data = new FormData(f);
+      const g = k => (data.get(k) || "").toString().trim();
+      const member = p => ({ nombre: g(p + "_name"), correo: g(p + "_mail").toLowerCase(), carrera: g(p + "_career"), sede: g(p + "_campus") });
+      const payload = {
+        tipo: "inscripcion", token: C.token, prueba: REG.testing,
+        equipo: g("team"),
+        integrantes: [member("c"), member("m2"), member("m3")].filter(m => m.nombre || m.correo),
+        experiencia: g("level"),
+        bases: $("#f-rules").checked,
+        fotos: $("#f-photo").checked
       };
-      Object.entries(C.formEntries).forEach(([k, entry]) => body.append(entry, val(k)));
-      const team = val("team"), mail = val("c_mail");
+      const team = payload.equipo, mail = payload.integrantes[0].correo;
       const btn = $("#f-submit"); btn.disabled = true;
       out.hidden = false;
       out.innerHTML = `<span class="c">$ ./enviar_inscripcion --team "${esc(team)}"</span>\n<span class="c">[*] enviando…</span>`;
       try {
-        await fetch(C.formAction, { method: "POST", mode: "no-cors", body });
+        const res = await postJSON(payload);
+        if (!res.ok) {
+          out.innerHTML = `<span class="c">$ ./enviar_inscripcion --team "${esc(team)}"</span>\n<span class="x">[x] ${esc(res.mensaje || "No pudimos registrar la inscripción.")}</span>`;
+          if (res.campo === "equipo") { setErr("f-team", res.mensaje, $("#f-team")); $("#f-team").focus(); }
+          return;
+        }
         out.innerHTML =
           `<span class="c">$ ./enviar_inscripcion --team "${esc(team)}"</span>\n` +
           (`<span class="p">[+] inscripción registrada</span>\n[i] equipo: ${esc(team)}\n[i] te avisaremos en ${esc(mail)}\n<span class="p">&gt; see_you_on_the_scoreboard_</span>`);
@@ -300,7 +319,7 @@
   /* ---------------- formulario de contacto ---------------- */
   function setupContact() {
     const f = $("#contact"), out = $("#k-out");
-    const ready = !!C.contactAction;
+    const ready = !!C.endpoint;
     $("#contact-state").hidden = ready;
     f.classList.toggle("locked", !ready);
     $$("fieldset", f).forEach(fs => { fs.disabled = !ready; });
@@ -326,13 +345,12 @@
       ev.preventDefault();
       if (!ready) return;
       if (!validate()) return;
-      const body = new URLSearchParams();
       const vals = { name: $("#k-name").value.trim(), mail: $("#k-mail").value.trim(), team: $("#k-team").value.trim(), topic: $("#k-topic").value, msg: $("#k-msg").value.trim() };
-      Object.entries(C.contactEntries).forEach(([k, entry]) => body.append(entry, vals[k] || ""));
       const btn = $("#k-submit"); btn.disabled = true; out.hidden = false;
       out.innerHTML = `<span class="c">$ ./enviar_mensaje --tema "${esc(vals.topic)}"</span>\n<span class="c">[*] enviando…</span>`;
       try {
-        await fetch(C.contactAction, { method: "POST", mode: "no-cors", body });
+        const res = await postJSON({ tipo: "contacto", token: C.token, nombre: vals.name, correo: vals.mail, equipo: vals.team, tema: vals.topic, mensaje: vals.msg });
+        if (!res.ok) throw new Error(res.mensaje || "error");
         out.innerHTML = `<span class="c">$ ./enviar_mensaje --tema "${esc(vals.topic)}"</span>\n` + `<span class="p">[+] mensaje enviado</span>\n[i] te responderemos en ${esc(vals.mail)}`;
         f.reset();
       } catch (e) {

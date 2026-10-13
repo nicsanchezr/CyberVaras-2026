@@ -1,6 +1,6 @@
 /* ============================================================
    CONFIGURACIÓN · CyberVaras 2026
-   Edita solo este archivo para fechas, CTFd y Google Form.
+   Edita solo este archivo para fechas, CTFd y el backend de formularios.
    ============================================================ */
 window.CV_CONFIG = {
   /* Fechas (hora de Chile continental en octubre = UTC-03:00) */
@@ -18,39 +18,11 @@ window.CV_CONFIG = {
   scoreboardMode: "demo",
   refreshSeconds: 30,
 
-  /* Google Form. Deja formAction vacío mientras no esté conectado (modo vista previa).
-     formAction = https://docs.google.com/forms/d/e/<ID_DEL_FORM>/formResponse
-     Cada campo apunta a su entry.NNNNNN. */
-  formAction: "",
-  formEntries: {
-    team:      "entry.1000000001",
-    c_name:    "entry.1000000002",
-    c_mail:    "entry.1000000003",
-    c_career:  "entry.1000000004",
-    c_campus:  "entry.1000000005",
-    m2_name:   "entry.1000000006",
-    m2_mail:   "entry.1000000007",
-    m2_career: "entry.1000000008",
-    m2_campus: "entry.1000000009",
-    m3_name:   "entry.1000000010",
-    m3_mail:   "entry.1000000011",
-    m3_career: "entry.1000000012",
-    m3_campus: "entry.1000000013",
-    level:     "entry.1000000014",
-    rules:     "entry.1000000015",
-    photo:     "entry.1000000016"
-  },
-
-  /* Google Form de contacto (otro Form, independiente del de inscripción).
-     Vacío = vista previa. */
-  contactAction: "",
-  contactEntries: {
-    name:  "entry.2000000001",
-    mail:  "entry.2000000002",
-    team:  "entry.2000000003",
-    topic: "entry.2000000004",
-    msg:   "entry.2000000005"
-  },
+  /* Backend de formularios (Google Apps Script → Google Sheets).
+     endpoint: URL de la aplicación web, termina en /exec. Vacío = formularios bloqueados.
+     token: debe ser el mismo valor que TOKEN en Codigo.gs. */
+  endpoint: "",
+  token: "cybervaras2026",
 
   /* Dominio permitido en los correos */
   emailDomain: "duocuc.cl"
