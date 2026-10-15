@@ -71,7 +71,7 @@
     ["p", "root@cybervaras:~/2026$ ", "", "./init_campeonato.sh --lvl 6"],
     ["c", "", "[*] cargando sede ............ ", "Antonio Varas"],
     ["c", "", "[*] modalidad ................ ", "online · 24h"],
-    ["c", "", "[*] categorías ............... ", "7 · ~25 retos"],
+    ["c", "", "[*] categorías ............... ", "7 · +40 retos"],
     ["c", "", "[*] equipos .................. ", "1–3 jugadores @duocuc.cl"],
     ["c", "", "[*] plataforma ............... ", "CTFd · ONLINE"],
     ["w", "", "[!] flag_format .............. ", "CITT{...}"],
