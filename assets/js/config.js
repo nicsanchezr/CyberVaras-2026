@@ -15,7 +15,7 @@ window.CV_CONFIG = {
   /* Scoreboard:
      "demo" → datos de ejemplo (para revisar el diseño)
      "live" → lee la API pública de CTFd (/api/v1/scoreboard) cada refreshSeconds */
-  scoreboardMode: "demo",
+  scoreboardMode: "live",
   refreshSeconds: 30,
 
   /* Backend de formularios (Google Apps Script → Google Sheets).
