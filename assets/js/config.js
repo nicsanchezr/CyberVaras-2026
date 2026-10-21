@@ -1,4 +1,4 @@
-/* ============================================================
+o/* ============================================================
    CONFIGURACIÓN · CyberVaras 2026
    Edita solo este archivo para fechas, CTFd y el backend de formularios.
    ============================================================ */
@@ -15,7 +15,7 @@ window.CV_CONFIG = {
   /* Scoreboard:
      "demo" → datos de ejemplo (para revisar el diseño)
      "live" → lee la API pública de CTFd (/api/v1/scoreboard) cada refreshSeconds */
-  scoreboardMode: "live",
+  scoreboardMode: "demo",
   refreshSeconds: 30,
 
   /* Backend de formularios (Google Apps Script → Google Sheets).
