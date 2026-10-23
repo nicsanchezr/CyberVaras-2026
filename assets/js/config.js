@@ -16,7 +16,7 @@ window.CV_CONFIG = {
      "demo" → datos de ejemplo (para revisar el diseño)
      "live" → lee la API pública de CTFd (/api/v1/scoreboard) cada refreshSeconds */
   scoreboardMode: "live",
-  refreshSeconds: 30,
+  refreshSeconds: 90,
 
   /* Backend de formularios (Google Apps Script → Google Sheets).
      endpoint: URL de la aplicación web, termina en /exec. Vacío = formularios bloqueados.
