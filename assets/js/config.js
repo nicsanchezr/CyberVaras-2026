@@ -25,5 +25,52 @@ window.CV_CONFIG = {
   token: "cybervaras2026",
 
   /* Dominio permitido en los correos */
-  emailDomain: "duocuc.cl"
+  emailDomain: "duocuc.cl",
+
+  /* Sede de cada equipo (affiliation), para mostrarla en el marcador en vivo.
+     La clave debe ser EXACTAMENTE el nombre del equipo en CTFd. */
+  sedes: {
+    "M1sh": "San Bernardo",
+    "Operacion Dora": "Antonio Varas",
+    "NFIG": "Antonio Varas",
+    "Black": "Antonio Varas",
+    "los sudo rm -rf": "Maipú",
+    "paarthurnax": "Antonio Varas",
+    "sudo rm -rf /*": "Alameda",
+    "auth": "Concepción",
+    "Cybeer": "Maipú",
+    "Sekhmet": "Otra",
+    "Pinky promise": "Viña del Mar",
+    "Kernel Panic": "Viña del Mar",
+    "She_Wins": "Valparaíso",
+    "hoxtxnDev": "Concepción",
+    "L1m1nal-N3tw0rk": "Viña del Mar",
+    "sudo_win": "San Carlos de Apoquindo",
+    "ARKA": "Viña del Mar",
+    "MotoSploit": "San Joaquín",
+    "00x": "Concepción",
+    "BitBandits": "Viña del Mar",
+    "las_ellas": "Alameda",
+    "eskibidisigmas": "Antonio Varas",
+    "LosNoNames": "San Carlos de Apoquindo",
+    "HireUsPls": "Maipú",
+    "FireStarter": "Concepción",
+    "Black and White": "Concepción",
+    "Stein": "Concepción",
+    "&> /dev/null": "Viña del Mar",
+    "SudoMamis": "San Carlos de Apoquindo",
+    "KernelPanic": "Antonio Varas",
+    "bmo": "Antonio Varas",
+    "losAntiPala": "Puente Alto",
+    "0x400804838f": "Viña del Mar",
+    "kosmo": "Alameda",
+    "3DMENTIONAL": "Concepción",
+    "Ghost Hook": "San Carlos de Apoquindo",
+    "Fondo_de_Bikini": "San Carlos de Apoquindo",
+    "HeXen": "Nacimiento",
+    "CrazyPP": "Maipú",
+    "hanSolo": "Concepción",
+    "Los Son of krippy": "Concepción",
+    "Ositos_Recargado": "Maipú"
+  }
 };
