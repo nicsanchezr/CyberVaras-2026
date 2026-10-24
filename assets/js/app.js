@@ -364,7 +364,7 @@
   const SB = (function () {
     let timer = null, prevPos = {}, demoClock = null, lastData = null;
     const demo = C.scoreboardMode !== "live";
-    const sedeTxt = n => { const s = C.sedes && C.sedes[n]; if (!s) return ""; return esc(s === "Otra" ? "Otra" : "Sede " + s) + " · "; };
+    const frozen = () => C.scoreboardFrozen === true || Date.now() >= T.end;
 
     /* datos de ejemplo deterministas */
     function rng(seed) { return function () { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
@@ -463,7 +463,7 @@
       // podio
       const pod = ranked.slice(0, 3);
       $("#podium").innerHTML = pod.length && pod[0].score > 0 ? pod.map((t, i) =>
-        `<div class="pod p${i + 1}"><span class="place">${["1ST", "2ND", "3RD"][i]} · ${["oro", "plata", "bronce"][i]}</span><span class="tname">${esc(t.name)}</span><span class="tscore">${t.score.toLocaleString("es-CL")} pts</span><span class="tsub">${sedeTxt(t.name)}${t.n} flags${t.last ? " · última " + fmtClock(t.last) : ""}</span></div>`
+        `<div class="pod p${i + 1}"><span class="place">${["1ST", "2ND", "3RD"][i]} · ${["oro", "plata", "bronce"][i]}</span><span class="tname">${esc(t.name)}</span><span class="tscore">${t.score.toLocaleString("es-CL")} pts</span><span class="tsub">${t.n} flags${t.last ? " · última " + fmtClock(t.last) : ""}</span></div>`
       ).join("") : "";
 
       // tabla
@@ -472,7 +472,7 @@
         newPos[t.name] = i;
         const was = prevPos[t.name];
         const cls = was === undefined ? "" : was > i ? "up flash" : was < i ? "down" : "";
-        return `<tr class="${cls}"><td class="pos">${pad(i + 1)}</td><td class="team">${esc(t.name)}<small>${sedeTxt(t.name)}${t.n ? t.n + " flags" : "sin flags aún"}</small></td><td class="pts">${t.score.toLocaleString("es-CL")}</td><td class="barcell"><div class="bar"><i style="width:${(t.score / max * 100).toFixed(1)}%"></i></div></td></tr>`;
+        return `<tr class="${cls}"><td class="pos">${pad(i + 1)}</td><td class="team">${esc(t.name)}<small>${t.n ? t.n + " flags" : "sin flags aún"}</small></td><td class="pts">${t.score.toLocaleString("es-CL")}</td><td class="barcell"><div class="bar"><i style="width:${(t.score / max * 100).toFixed(1)}%"></i></div></td></tr>`;
       }).join("") : `<tr><td colspan="4"><div class="empty">Aún no hay equipos en el marcador.</div></td></tr>`;
       prevPos = newPos;
       $("#sb-updated").textContent = "act. " + fmtClock(Date.now());
@@ -525,8 +525,24 @@
       ).join("") : '<li><span></span><span class="who" style="color:var(--muted)">Aún no hay flags capturadas.</span><span></span></li>';
     }
 
+    function renderClosed() {
+      $("#sb-banner").innerHTML = `<span><span class="status-pill done">FINALIZADO</span>&nbsp; competencia cerrada</span><span>Ranking <b>en revisión</b> · resultados durante la semana</span>`;
+      $("#sb-meta").textContent = "marcador en revisión";
+      $("#k-teams").textContent = "–";
+      $("#k-solves").textContent = "–";
+      $("#k-top").textContent = "–";
+      $("#k-left").textContent = "00:00:00";
+      $("#podium").innerHTML = "";
+      $("#rank-body").innerHTML = `<tr><td colspan="4"><div class="empty">La competencia finalizó. El ranking está en revisión por la organización y se publicará durante la semana.</div></td></tr>`;
+      $("#chart").innerHTML = '<div class="empty">Resultados en revisión.</div>';
+      $("#legend").innerHTML = "";
+      $("#feed").innerHTML = '<li><span></span><span class="who" style="color:var(--muted)">Competencia finalizada. Gracias por participar.</span><span></span></li>';
+      $("#sb-updated").textContent = "";
+    }
+
     async function refresh() {
       try {
+        if (frozen()) { renderClosed(); return; }
         if (demo) { render(demoData()); advanceDemo(); }
         else if (Date.now() < T.start) { render({ now: Date.now(), teams: [], solves: [], demo: false }); }
         else { render(await liveData()); }
