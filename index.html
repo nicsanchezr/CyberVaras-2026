@@ -497,8 +497,39 @@
     </div>
   </div>
 </dialog>
-
+<dialog class="modal" id="end-dialog" aria-labelledby="end-dialog-title">
+  <div class="modal-bar"><i></i><i></i><i></i><span>root@cybervaras:~/status</span></div>
+  <div class="modal-body">
+    <p class="eyebrow" id="end-dialog-eyebrow">// COMPETITION_CLOSED</p>
+    <h3 id="end-dialog-title">El campeonato ha finalizado</h3>
+    <p id="end-dialog-text">El Sexto Campeonato CyberVaras 2026 llegó a su fin. Gracias por participar. El ranking final está en revisión y se publicará durante la próxima semana.</p>
+    <div class="modal-actions">
+      <button class="btn" type="button" id="end-dialog-ok">Entendido</button>
+      <a class="btn ghost" href="#scoreboard" id="end-dialog-sb">Ver marcador</a>
+    </div>
+  </div>
+</dialog>
 <!--@JS@--><script src="assets/js/config.js"></script>
 <script src="assets/js/app.js"></script>
+<script>
+(function () {
+  var cfg = window.CV_CONFIG || {};
+  var end = Date.parse(cfg.ctfEnd);
+  if (!end || Date.now() < end) return;            // solo tras el cierre
+  function ready(fn){ document.readyState !== "loading" ? fn() : document.addEventListener("DOMContentLoaded", fn); }
+  ready(function () {
+    var dlg = document.getElementById("end-dialog");
+    if (!dlg) return;
+    var ok = document.getElementById("end-dialog-ok");
+    if (ok) ok.addEventListener("click", function () { dlg.close(); });
+    dlg.addEventListener("click", function (e) { if (e.target === dlg) dlg.close(); });
+    try { if (sessionStorage.getItem("cv-end-seen")) return; } catch (e) {}
+    setTimeout(function () {
+      try { dlg.showModal(); } catch (e) { dlg.setAttribute("open", ""); }
+      try { sessionStorage.setItem("cv-end-seen", "1"); } catch (e) {}
+    }, 400);
+  });
+})();
+</script>
 </body>
 </html>
